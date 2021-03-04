@@ -6,3 +6,7 @@ Currently that gesture is limited to a head-nod (up and down). But future versio
 
 TODO:
 Translate into working APP for android/IOS or javascript web-app.
+
+After starting this project I found several similar projects:
+
+https://medium.com/@nishancw/scroll-pdf-by-raising-hands-wait-what-75b37cd67bb5

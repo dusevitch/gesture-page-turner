@@ -5,6 +5,7 @@ from tkinter import *
 from PIL import Image,ImageTk
 from pdf2image import convert_from_path
 import argparse
+import cv2
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -50,6 +51,9 @@ def pdf_viewer():
 	    # For Seperating the pages
 	    pdf.insert(END,'\n\n')
 
+
+	root.mainloop()
+
 if __name__== "__main__":
-	print("pdf_file")
+	print(args["pdf_file"])
 	pdf_viewer()
