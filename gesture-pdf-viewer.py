@@ -16,10 +16,15 @@ args = vars(ap.parse_args())
 
 def pdf_viewer():
 	# Creating Tk container
-	root = Tk()
+	tk = Tk()
+
+	canvas = Canvas(tk,width=800,height=900)
+	#tk.wm_iconbitmap("icon.ico") # for an icon on the gui canvas
+	tk.title("Gesture Control PDF Viewer")
+	canvas.pack()
 
 	# Creating the frame for PDF Viewer
-	pdf_frame = Frame(root).pack(fill=BOTH,expand=1)
+	pdf_frame = Frame(canvas).pack(fill=BOTH,expand=1)
 
 	# Adding Scrollbar to the PDF frame
 	scrol_y = Scrollbar(pdf_frame,orient=VERTICAL)
@@ -45,13 +50,21 @@ def pdf_viewer():
 	    photos.append(ImageTk.PhotoImage(pages[i]))
 
 	# Adding all the images to the text widget
+	n = 0
 	for photo in photos:
 	    pdf.image_create(END,image=photo)
 	  
 	    # For Seperating the pages
 	    pdf.insert(END,'\n\n')
-	    print(type(photo))
-	root.mainloop()
+
+	    print("Photo " + str(n))
+	    print(photo.height())
+	    print(photo.width())
+	    n = n+1
+
+	canvas.pack_forget()
+
+	canvas.mainloop()
 
 if __name__== "__main__":
 	print(args["pdf_file"])
