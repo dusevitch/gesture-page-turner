@@ -14,30 +14,41 @@ ap.add_argument("-p", "--pdf_file", required=True,
 args = vars(ap.parse_args())
 
 
+def handle_keypress(event):
+	print("keypress")
+
+def get_scroll_pos(event):
+    a,b = scrollbar.get()
+    print("A: " + str(a) + " B: " + str(b))
+
 def pdf_viewer():
 	# Creating Tk container
-	tk = Tk()
-
-	canvas = Canvas(tk,width=800,height=900)
+	tk = Tk()	
 	#tk.wm_iconbitmap("icon.ico") # for an icon on the gui canvas
 	tk.title("Gesture Control PDF Viewer")
-	canvas.pack()
+
+	# initial_height of pdf
+	img_width = 800
+	img_height = 900
 
 	# Creating the frame for PDF Viewer
-	pdf_frame = Frame(canvas).pack(fill=BOTH,expand=1)
+	pdf_frame = Frame(master=tk)
+	pdf_frame.pack(fill=BOTH,expand=True)
 
 	# Adding Scrollbar to the PDF frame
-	scrol_y = Scrollbar(pdf_frame,orient=VERTICAL)
+	scrol_y = Scrollbar(master=pdf_frame,orient=VERTICAL)
 
 	# Adding text widget for inserting images
-	pdf = Text(pdf_frame,yscrollcommand=scrol_y.set,bg="grey")
+	pdf = Text(master=pdf_frame, width=img_width, height=img_height, yscrollcommand=scrol_y.set,bg="grey")
+	#pdf.configure(state="disabled") # does this eliminate ability for padding?
 
 	# Setting the scrollbar to the right side
 	scrol_y.pack(side=RIGHT,fill=Y)
 	scrol_y.config(command=pdf.yview)
 
 	# Finally packing the text widget
-	pdf.pack(fill=BOTH,expand=1)
+	pdf.pack(fill=BOTH, expand=True, padx=5, pady=5)
+
 
 	# Here the PDF is converted to list of images
 	pages = convert_from_path(args["pdf_file"],size=(800,900))
@@ -50,21 +61,16 @@ def pdf_viewer():
 	    photos.append(ImageTk.PhotoImage(pages[i]))
 
 	# Adding all the images to the text widget
-	n = 0
+
 	for photo in photos:
 	    pdf.image_create(END,image=photo)
 	  
 	    # For Seperating the pages
 	    pdf.insert(END,'\n\n')
 
-	    print("Photo " + str(n))
-	    print(photo.height())
-	    print(photo.width())
-	    n = n+1
-
-	canvas.pack_forget()
-
-	canvas.mainloop()
+	tk.bind("<Key>", handle_keypress)
+	#tk.bind("<Scroll>", get_scroll_pos)
+	tk.mainloop()
 
 if __name__== "__main__":
 	print(args["pdf_file"])
