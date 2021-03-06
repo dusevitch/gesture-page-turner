@@ -50,8 +50,7 @@ def pdf_viewer():
 	  
 	    # For Seperating the pages
 	    pdf.insert(END,'\n\n')
-
-
+	    print(type(photo))
 	root.mainloop()
 
 if __name__== "__main__":
